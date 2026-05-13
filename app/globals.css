@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Typography ───────────────────────────────────────── */
+/* Inter Tight for body, Instrument Serif for display headlines, JetBrains Mono for code */
+/* Distinctive choices that avoid the generic Inter/Roboto trap */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+:root {
+  --font-sans: "Inter Tight", system-ui, -apple-system, sans-serif;
+  --font-display: "Instrument Serif", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Page rhythm */
+  --page-max: 1200px;
+  --page-pad: 1.5rem;
+}
+
+@layer base {
+  * {
+    border-color: theme("colors.ink.200");
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-ink-50 text-ink-800 font-sans;
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  /* Selection */
+  ::selection {
+    @apply bg-accent-200 text-ink-900;
+  }
+
+  /* Scrollbar — refined, not default chrome */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-ink-200 rounded-full;
+    border: 2px solid theme("colors.ink.50");
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-ink-300;
+  }
+
+  /* Focus rings — branded amber */
+  :focus-visible {
+    outline: none;
+    @apply ring-2 ring-accent-400/50 ring-offset-2 ring-offset-ink-50;
+  }
+
+  /* Headings use display font */
+  h1, h2, h3 {
+    @apply font-display tracking-tight text-ink-900;
+    font-weight: 400;
+  }
+  h4, h5, h6 {
+    @apply font-sans tracking-tight text-ink-900;
+    font-weight: 600;
+  }
+}
+
+@layer components {
+  /* The signature "paper" surface — used for cards */
+  .paper {
+    @apply bg-white border border-ink-200/70 rounded-lg;
+  }
+
+  /* Subtle grid background for hero areas */
+  .grid-bg {
+    background-image:
+      linear-gradient(to right, rgb(34 34 32 / 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(34 34 32 / 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  /* A soft "noise" overlay for atmosphere */
+  .noise::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.025;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' /%3E%3C/svg%3E");
+  }
+
+  /* Input styles */
+  .input {
+    @apply w-full px-3 py-2 text-sm bg-white border border-ink-200 rounded-md
+           placeholder:text-ink-400
+           focus:border-accent-400 focus:ring-0 focus:outline-none
+           transition-colors;
+  }
+
+  /* Editorial drop cap for headings */
+  .display {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  /* Skeleton shimmer */
+  .skeleton {
+    @apply bg-ink-100 rounded;
+    background: linear-gradient(
+      90deg,
+      theme("colors.ink.100") 0%,
+      theme("colors.ink.200") 50%,
+      theme("colors.ink.100") 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s ease-in-out infinite;
+  }
+}
+
+/* Markdown content (lesson body) */
+.prose-lesson h1 { @apply font-display text-3xl text-ink-900 mt-8 mb-4; }
+.prose-lesson h2 { @apply font-display text-2xl text-ink-900 mt-7 mb-3; }
+.prose-lesson h3 { @apply font-sans font-semibold text-lg text-ink-900 mt-6 mb-2; }
+.prose-lesson p  { @apply text-ink-700 leading-relaxed mb-4; }
+.prose-lesson ul { @apply list-disc list-outside ml-5 mb-4 text-ink-700 space-y-1; }
+.prose-lesson ol { @apply list-decimal list-outside ml-5 mb-4 text-ink-700 space-y-1; }
+.prose-lesson code {
+  @apply bg-ink-100 text-ink-900 px-1.5 py-0.5 rounded text-[0.875em] font-mono;
+}
+.prose-lesson pre {
+  @apply bg-ink-900 text-ink-50 p-4 rounded-lg overflow-x-auto mb-4 text-sm font-mono;
+}
+.prose-lesson pre code {
+  @apply bg-transparent text-ink-50 p-0;
+}
+.prose-lesson a {
+  @apply text-accent-600 underline underline-offset-2 hover:text-accent-700;
+}
+.prose-lesson blockquote {
+  @apply border-l-2 border-accent-400 pl-4 italic text-ink-600 my-4;
+}
